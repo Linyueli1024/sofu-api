@@ -1,6 +1,6 @@
 import User from "../models/user.js";
 
-export const login = async (req, res) => {
+export const loginByPassword = async (req, res) => {
   try {
     const { account, password } = req.body;
 
