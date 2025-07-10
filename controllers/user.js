@@ -1,4 +1,9 @@
 import User from "../models/user.js";
+import Post from "../models/post.js";
+import Comment from "../models/comment.js";
+import SameQuestion from "../models/sameQues.js";
+import Answer from "../models/answer.js";
+import Question from "../models/question.js";
 
 export const loginByPassword = async (req, res) => {
   try {
@@ -32,6 +37,52 @@ export const loginByPassword = async (req, res) => {
         account: user.account,
         avatar: user.avatar,
         mobile: user.mobile,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ code: 50000, message: "服务器错误", error: err.message });
+  }
+};
+export const getUserInfo = async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!id) {
+      return res.status(400).json({ code: 40000, message: "无效的用户 ID" });
+    }
+
+    const user = await User.findByPk(id, {
+      attributes: ["id", "account", "mobile", "avatar"],
+    });
+
+    if (!user) {
+      return res.status(404).json({ code: 40400, message: "用户不存在" });
+    }
+
+    // 统计相关数量
+    const [likeCount, questionCount, answerCount, sameQuestionCount] =
+      await Promise.all([
+        Post.sum("likes", { where: { user_id: id } }),
+        SameQuestion.count({ where: { user_id: id } }),
+        Answer.count({ where: { user_id: id } }),
+        Question.count({ where: { user_id: id } }),
+      ]);
+
+    res.json({
+      code: 10000,
+      message: "ok",
+      data: {
+        id: user.id,
+        account: user.account,
+        mobile: user.mobile,
+        avatar: user.avatar,
+        like: likeCount || 0,
+        question: questionCount,
+        answer: answerCount,
+        sameQuestion: sameQuestionCount,
+        refreshToken: "", // 如果需要加 token 信息
       },
     });
   } catch (err) {
