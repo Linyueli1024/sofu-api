@@ -2,19 +2,19 @@ import User from "../models/user.js";
 
 export const loginByPassword = async (req, res) => {
   try {
-    const { account, password } = req.body;
+    const { mobile, password } = req.body;
 
     // 参数校验
-    if (!account || !password) {
+    if (!mobile || !password) {
       return res
         .status(400)
-        .json({ code: 40001, message: "账号或密码不能为空" });
+        .json({ code: 40001, message: "手机号或密码不能为空" });
     }
 
     // 查询用户
-    const user = await User.findOne({ where: { account } });
+    const user = await User.findOne({ where: { mobile } });
 
-    if (!user) {
+    if (!mobile) {
       return res.status(404).json({ code: 40401, message: "用户不存在" });
     }
 
@@ -31,6 +31,7 @@ export const loginByPassword = async (req, res) => {
         id: user.id,
         account: user.account,
         avatar: user.avatar,
+        mobile: user.mobile,
       },
     });
   } catch (err) {
