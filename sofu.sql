@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50740
 File Encoding         : 65001
 
-Date: 2025-07-24 21:54:59
+Date: 2025-07-24 22:00:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -309,7 +309,6 @@ DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `text` text,
-  `pictures` json DEFAULT NULL,
   `target_type` enum('post','comment') DEFAULT NULL,
   `target_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
@@ -322,50 +321,50 @@ CREATE TABLE `comments` (
 -- ----------------------------
 -- Records of comments
 -- ----------------------------
-INSERT INTO `comments` VALUES ('1', '好看', null, 'post', '1', '1', '2025-07-09 18:43:34', '2025-07-09 18:43:37');
-INSERT INTO `comments` VALUES ('2', '看起来好好吃', null, 'post', '2', '2', '2025-07-09 18:44:03', '2025-07-09 18:44:05');
-INSERT INTO `comments` VALUES ('3', '是呀是呀', null, 'comment', '1', '1', '2025-07-09 18:44:23', '2025-07-09 18:44:25');
-INSERT INTO `comments` VALUES ('4', '没错没错', null, 'comment', '1', '2', '2025-07-09 18:57:16', '2025-07-09 18:57:19');
-INSERT INTO `comments` VALUES ('5', '好看的小雏菊', null, 'post', '1', '1', '2025-07-09 19:46:01', '2025-07-09 19:46:04');
-INSERT INTO `comments` VALUES ('6', '我也有同样的问题', null, 'comment', '5', '2', '2025-07-10 14:13:53', '2025-07-10 14:13:53');
-INSERT INTO `comments` VALUES ('7', '真好看', null, 'post', '1', '1', '2025-07-10 15:23:09', '2025-07-10 15:23:09');
-INSERT INTO `comments` VALUES ('10', '好看23', null, 'post', '1', '1', '2025-07-10 15:30:39', '2025-07-10 15:30:39');
-INSERT INTO `comments` VALUES ('11', '好看插入11', null, 'post', '1', '1', '2025-07-10 15:32:26', '2025-07-10 15:32:26');
-INSERT INTO `comments` VALUES ('12', '好看344', null, 'post', '1', '1', '2025-07-10 15:38:21', '2025-07-10 15:38:21');
-INSERT INTO `comments` VALUES ('13', '好好看呀', null, 'post', '1', '2', '2025-07-10 16:28:08', '2025-07-10 16:28:08');
-INSERT INTO `comments` VALUES ('14', '真好看', null, 'post', '1', '2', '2025-07-10 16:29:55', '2025-07-10 16:29:55');
-INSERT INTO `comments` VALUES ('15', '好看', null, 'post', '1', '1', '2025-07-23 18:30:59', '2025-07-23 18:30:59');
-INSERT INTO `comments` VALUES ('16', '好看的啊啊啊啊', null, 'post', '1', '1', '2025-07-24 02:10:21', '2025-07-24 02:10:21');
-INSERT INTO `comments` VALUES ('17', '好看的啊啊啊啊', null, 'post', '1', '1', '2025-07-24 02:13:43', '2025-07-24 02:13:43');
-INSERT INTO `comments` VALUES ('18', '好看啊啊啊啊啊啊啊啊啊啊啊啊啊', null, 'post', '1', '1', '2025-07-24 02:14:23', '2025-07-24 02:14:23');
-INSERT INTO `comments` VALUES ('19', '好看啊啊啊啊啊啊啊啊啊啊啊', null, 'post', '1', '1', '2025-07-24 02:17:21', '2025-07-24 02:17:21');
-INSERT INTO `comments` VALUES ('20', '好看啊啊啊啊啊啊啊啊啊啊', null, 'post', '1', '1', '2025-07-24 02:18:48', '2025-07-24 02:18:48');
-INSERT INTO `comments` VALUES ('21', '好的', null, 'post', '1', '1', '2025-07-24 02:25:45', '2025-07-24 02:25:45');
-INSERT INTO `comments` VALUES ('22', '对的', null, 'post', '1', '1', '2025-07-24 15:13:55', '2025-07-24 15:13:55');
-INSERT INTO `comments` VALUES ('23', '的是', null, 'comment', '3', '1', '2025-07-24 15:25:31', '2025-07-24 15:25:31');
-INSERT INTO `comments` VALUES ('24', '好的', null, 'comment', '21', '1', '2025-07-24 15:26:22', '2025-07-24 15:26:22');
-INSERT INTO `comments` VALUES ('25', '对的', null, 'comment', '3', '1', '2025-07-24 15:26:41', '2025-07-24 15:26:41');
-INSERT INTO `comments` VALUES ('26', '哈ODEEDE', null, 'comment', '24', '1', '2025-07-24 15:26:55', '2025-07-24 15:26:55');
-INSERT INTO `comments` VALUES ('27', '好看的', null, 'comment', '3', '1', '2025-07-24 15:32:04', '2025-07-24 15:32:04');
-INSERT INTO `comments` VALUES ('28', '好看呢', null, 'comment', '3', '1', '2025-07-24 15:34:41', '2025-07-24 15:34:41');
-INSERT INTO `comments` VALUES ('29', '好看啊啊啊啊啊啊啊啊啊啊啊', null, 'comment', '3', '1', '2025-07-24 16:08:43', '2025-07-24 16:08:43');
-INSERT INTO `comments` VALUES ('30', '你说得对', null, 'comment', '4', '1', '2025-07-24 16:19:48', '2025-07-24 16:19:48');
-INSERT INTO `comments` VALUES ('31', '你说得对', null, 'comment', '6', '1', '2025-07-24 16:20:06', '2025-07-24 16:20:06');
-INSERT INTO `comments` VALUES ('32', '是的是的', null, 'comment', '6', '1', '2025-07-24 16:22:50', '2025-07-24 16:22:50');
-INSERT INTO `comments` VALUES ('33', '使得', null, 'comment', '31', '1', '2025-07-24 16:23:19', '2025-07-24 16:23:19');
-INSERT INTO `comments` VALUES ('34', '对的', null, 'comment', '6', '1', '2025-07-24 16:23:28', '2025-07-24 16:23:28');
-INSERT INTO `comments` VALUES ('35', '对俄', null, 'comment', '24', '1', '2025-07-24 16:26:43', '2025-07-24 16:26:43');
-INSERT INTO `comments` VALUES ('36', '嗯嗯', null, 'comment', '6', '1', '2025-07-24 16:27:37', '2025-07-24 16:27:37');
-INSERT INTO `comments` VALUES ('37', '是呀', null, 'comment', '2', '1', '2025-07-24 16:33:40', '2025-07-24 16:33:40');
-INSERT INTO `comments` VALUES ('38', '是呀', null, 'comment', '1', '1', '2025-07-24 16:34:09', '2025-07-24 16:34:09');
-INSERT INTO `comments` VALUES ('39', '好看', null, 'comment', '13', '1', '2025-07-24 16:40:44', '2025-07-24 16:40:44');
-INSERT INTO `comments` VALUES ('40', '对的', null, 'comment', '21', '1', '2025-07-24 17:12:43', '2025-07-24 17:12:43');
-INSERT INTO `comments` VALUES ('41', '真好', null, 'comment', '10', '1', '2025-07-24 17:12:56', '2025-07-24 17:12:56');
-INSERT INTO `comments` VALUES ('42', '对的 啊啊', null, 'comment', '5', '1', '2025-07-24 17:14:47', '2025-07-24 17:14:47');
-INSERT INTO `comments` VALUES ('43', '对呀', null, 'comment', '38', '1', '2025-07-24 17:16:42', '2025-07-24 17:16:42');
-INSERT INTO `comments` VALUES ('44', '对呀对呀', null, 'comment', '37', '1', '2025-07-24 19:47:12', '2025-07-24 19:47:12');
-INSERT INTO `comments` VALUES ('45', '对的吧', null, 'comment', '1', '1', '2025-07-24 19:49:17', '2025-07-24 19:49:17');
-INSERT INTO `comments` VALUES ('46', '对的', null, 'comment', '37', '1', '2025-07-24 19:49:58', '2025-07-24 19:49:58');
+INSERT INTO `comments` VALUES ('1', '好看', 'post', '1', '1', '2025-07-09 18:43:34', '2025-07-09 18:43:37', '0');
+INSERT INTO `comments` VALUES ('2', '看起来好好吃', 'post', '2', '2', '2025-07-09 18:44:03', '2025-07-09 18:44:05', '10');
+INSERT INTO `comments` VALUES ('3', '是呀是呀', 'comment', '1', '1', '2025-07-09 18:44:23', '2025-07-09 18:44:25', '30');
+INSERT INTO `comments` VALUES ('4', '没错没错', 'comment', '1', '2', '2025-07-09 18:57:16', '2025-07-09 18:57:19', '24');
+INSERT INTO `comments` VALUES ('5', '好看的小雏菊', 'post', '1', '1', '2025-07-09 19:46:01', '2025-07-09 19:46:04', '0');
+INSERT INTO `comments` VALUES ('6', '我也有同样的问题', 'comment', '5', '2', '2025-07-10 14:13:53', '2025-07-10 14:13:53', '0');
+INSERT INTO `comments` VALUES ('7', '真好看', 'post', '1', '1', '2025-07-10 15:23:09', '2025-07-10 15:23:09', '0');
+INSERT INTO `comments` VALUES ('10', '好看23', 'post', '1', '1', '2025-07-10 15:30:39', '2025-07-10 15:30:39', '0');
+INSERT INTO `comments` VALUES ('11', '好看插入11', 'post', '1', '1', '2025-07-10 15:32:26', '2025-07-10 15:32:26', '0');
+INSERT INTO `comments` VALUES ('12', '好看344', 'post', '1', '1', '2025-07-10 15:38:21', '2025-07-10 15:38:21', '0');
+INSERT INTO `comments` VALUES ('13', '好好看呀', 'post', '1', '2', '2025-07-10 16:28:08', '2025-07-10 16:28:08', '0');
+INSERT INTO `comments` VALUES ('14', '真好看', 'post', '1', '2', '2025-07-10 16:29:55', '2025-07-10 16:29:55', '0');
+INSERT INTO `comments` VALUES ('15', '好看', 'post', '1', '1', '2025-07-23 18:30:59', '2025-07-23 18:30:59', '0');
+INSERT INTO `comments` VALUES ('16', '好看的啊啊啊啊', 'post', '1', '1', '2025-07-24 02:10:21', '2025-07-24 02:10:21', '0');
+INSERT INTO `comments` VALUES ('17', '好看的啊啊啊啊', 'post', '1', '1', '2025-07-24 02:13:43', '2025-07-24 02:13:43', '0');
+INSERT INTO `comments` VALUES ('18', '好看啊啊啊啊啊啊啊啊啊啊啊啊啊', 'post', '1', '1', '2025-07-24 02:14:23', '2025-07-24 02:14:23', '0');
+INSERT INTO `comments` VALUES ('19', '好看啊啊啊啊啊啊啊啊啊啊啊', 'post', '1', '1', '2025-07-24 02:17:21', '2025-07-24 02:17:21', '0');
+INSERT INTO `comments` VALUES ('20', '好看啊啊啊啊啊啊啊啊啊啊', 'post', '1', '1', '2025-07-24 02:18:48', '2025-07-24 02:18:48', '0');
+INSERT INTO `comments` VALUES ('21', '好的', 'post', '1', '1', '2025-07-24 02:25:45', '2025-07-24 02:25:45', '0');
+INSERT INTO `comments` VALUES ('22', '对的', 'post', '1', '1', '2025-07-24 15:13:55', '2025-07-24 15:13:55', '0');
+INSERT INTO `comments` VALUES ('23', '的是', 'comment', '3', '1', '2025-07-24 15:25:31', '2025-07-24 15:25:31', '0');
+INSERT INTO `comments` VALUES ('24', '好的', 'comment', '21', '1', '2025-07-24 15:26:22', '2025-07-24 15:26:22', '0');
+INSERT INTO `comments` VALUES ('25', '对的', 'comment', '3', '1', '2025-07-24 15:26:41', '2025-07-24 15:26:41', '0');
+INSERT INTO `comments` VALUES ('26', '哈ODEEDE', 'comment', '24', '1', '2025-07-24 15:26:55', '2025-07-24 15:26:55', '0');
+INSERT INTO `comments` VALUES ('27', '好看的', 'comment', '3', '1', '2025-07-24 15:32:04', '2025-07-24 15:32:04', '0');
+INSERT INTO `comments` VALUES ('28', '好看呢', 'comment', '3', '1', '2025-07-24 15:34:41', '2025-07-24 15:34:41', '0');
+INSERT INTO `comments` VALUES ('29', '好看啊啊啊啊啊啊啊啊啊啊啊', 'comment', '3', '1', '2025-07-24 16:08:43', '2025-07-24 16:08:43', '0');
+INSERT INTO `comments` VALUES ('30', '你说得对', 'comment', '4', '1', '2025-07-24 16:19:48', '2025-07-24 16:19:48', '0');
+INSERT INTO `comments` VALUES ('31', '你说得对', 'comment', '6', '1', '2025-07-24 16:20:06', '2025-07-24 16:20:06', '0');
+INSERT INTO `comments` VALUES ('32', '是的是的', 'comment', '6', '1', '2025-07-24 16:22:50', '2025-07-24 16:22:50', '0');
+INSERT INTO `comments` VALUES ('33', '使得', 'comment', '31', '1', '2025-07-24 16:23:19', '2025-07-24 16:23:19', '0');
+INSERT INTO `comments` VALUES ('34', '对的', 'comment', '6', '1', '2025-07-24 16:23:28', '2025-07-24 16:23:28', '0');
+INSERT INTO `comments` VALUES ('35', '对俄', 'comment', '24', '1', '2025-07-24 16:26:43', '2025-07-24 16:26:43', '0');
+INSERT INTO `comments` VALUES ('36', '嗯嗯', 'comment', '6', '1', '2025-07-24 16:27:37', '2025-07-24 16:27:37', '0');
+INSERT INTO `comments` VALUES ('37', '是呀', 'comment', '2', '1', '2025-07-24 16:33:40', '2025-07-24 16:33:40', '0');
+INSERT INTO `comments` VALUES ('38', '是呀', 'comment', '1', '1', '2025-07-24 16:34:09', '2025-07-24 16:34:09', '0');
+INSERT INTO `comments` VALUES ('39', '好看', 'comment', '13', '1', '2025-07-24 16:40:44', '2025-07-24 16:40:44', '0');
+INSERT INTO `comments` VALUES ('40', '对的', 'comment', '21', '1', '2025-07-24 17:12:43', '2025-07-24 17:12:43', '0');
+INSERT INTO `comments` VALUES ('41', '真好', 'comment', '10', '1', '2025-07-24 17:12:56', '2025-07-24 17:12:56', '0');
+INSERT INTO `comments` VALUES ('42', '对的 啊啊', 'comment', '5', '1', '2025-07-24 17:14:47', '2025-07-24 17:14:47', '0');
+INSERT INTO `comments` VALUES ('43', '对呀', 'comment', '38', '1', '2025-07-24 17:16:42', '2025-07-24 17:16:42', '0');
+INSERT INTO `comments` VALUES ('44', '对呀对呀', 'comment', '37', '1', '2025-07-24 19:47:12', '2025-07-24 19:47:12', '0');
+INSERT INTO `comments` VALUES ('45', '对的吧', 'comment', '1', '1', '2025-07-24 19:49:17', '2025-07-24 19:49:17', '0');
+INSERT INTO `comments` VALUES ('46', '对的', 'comment', '37', '1', '2025-07-24 19:49:58', '2025-07-24 19:49:58', '0');
 
 -- ----------------------------
 -- Table structure for likes
@@ -398,7 +397,6 @@ CREATE TABLE `posts` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) DEFAULT NULL,
   `content` text,
-  `pictures` json DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -409,34 +407,16 @@ CREATE TABLE `posts` (
 -- ----------------------------
 -- Records of posts
 -- ----------------------------
-INSERT INTO `posts` VALUES ('1', 'Terminatio cognatus thorax autus villa.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Ciminatio sodalitas crur temptatio apto conor spero cupiditas. Adipiscor defluo incidunt virga talio maxime nemo uberrime decet ea.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"},{\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('2', 'Accedo surgo vix tunc auctus.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Adiuvo dolorum convoco. Uberrime xiphias corrupti tardus speciosus deleo ullus.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('3', 'Tutamen cuppedia spectaculum sit speciosus.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Confero defetiscor bene acquiro consectetur cura. Theologus assumenda ab demergo angustus carmen terga.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/mkWf4skk/2.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('4', 'Timor vesco aut ascit aspicio.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Aureus conduco sonitus caecus audio supra reprehenderit brevis totam. Deporto absque cotidie taceo tergiversatio coruscus delicate tandem.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/L5kd6bgT/8.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '2');
-INSERT INTO `posts` VALUES ('5', 'Viscus decet velut dedecor dolor.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Usus provident comburo virtus desino. Damnatio et adnuo decipio.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/jSSVtvxH/3.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('6', 'Stella sequi clarus brevis cubitum.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Pecco vulgivagus carcer eius adsuesco sublime tergum depono. Annus demens aestas communis.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/k5ZPj8dx/4.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('7', 'Aegre vulgo asporto ambitus atrox.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Assumenda facere triduana natus turpis veritatis decipio atrocitas. Umbra vado commodi.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/xjLVRcpz/5.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('8', 'Similique terminatio termes alius in.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Venia aequitas suscipio deorsum arcus adimpleo pariatur. Vulnus adicio sum surculus aspicio brevis.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/pTFb3T23/6.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('9', 'Vulariter verto acer vesper adflicto.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Neque defleo consuasor. Crinis tres voluntarius commodo thymbra cinis.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/VL1QHm2H/7.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-INSERT INTO `posts` VALUES ('10', 'Advenio deduco velut abundans voluptatibus.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Denuncio aestivus eum thermae amplexus cresco. Crepusculum aliquid aranea.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/X78MRtbN/9.jpg\", \"type\": \"image\"}]}', null, '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1');
-
--- ----------------------------
--- Table structure for posts_copy
--- ----------------------------
-DROP TABLE IF EXISTS `posts_copy`;
-CREATE TABLE `posts_copy` (
-  `id` bigint(20) DEFAULT NULL,
-  `title` varchar(100) DEFAULT NULL,
-  `content` text,
-  `pictures` json DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of posts_copy
--- ----------------------------
+INSERT INTO `posts` VALUES ('1', 'Terminatio cognatus thorax autus villa.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Ciminatio sodalitas crur temptatio apto conor spero cupiditas. Adipiscor defluo incidunt virga talio maxime nemo uberrime decet ea.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"},{\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '10');
+INSERT INTO `posts` VALUES ('2', 'Accedo surgo vix tunc auctus.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Adiuvo dolorum convoco. Uberrime xiphias corrupti tardus speciosus deleo ullus.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '6');
+INSERT INTO `posts` VALUES ('3', 'Tutamen cuppedia spectaculum sit speciosus.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Confero defetiscor bene acquiro consectetur cura. Theologus assumenda ab demergo angustus carmen terga.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/mkWf4skk/2.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '9');
+INSERT INTO `posts` VALUES ('4', 'Timor vesco aut ascit aspicio.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Aureus conduco sonitus caecus audio supra reprehenderit brevis totam. Deporto absque cotidie taceo tergiversatio coruscus delicate tandem.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/L5kd6bgT/8.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '2', '13');
+INSERT INTO `posts` VALUES ('5', 'Viscus decet velut dedecor dolor.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Usus provident comburo virtus desino. Damnatio et adnuo decipio.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/jSSVtvxH/3.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '0');
+INSERT INTO `posts` VALUES ('6', 'Stella sequi clarus brevis cubitum.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Pecco vulgivagus carcer eius adsuesco sublime tergum depono. Annus demens aestas communis.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/k5ZPj8dx/4.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '14');
+INSERT INTO `posts` VALUES ('7', 'Aegre vulgo asporto ambitus atrox.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Assumenda facere triduana natus turpis veritatis decipio atrocitas. Umbra vado commodi.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/xjLVRcpz/5.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '0');
+INSERT INTO `posts` VALUES ('8', 'Similique terminatio termes alius in.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Venia aequitas suscipio deorsum arcus adimpleo pariatur. Vulnus adicio sum surculus aspicio brevis.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/pTFb3T23/6.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '0');
+INSERT INTO `posts` VALUES ('9', 'Vulariter verto acer vesper adflicto.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Neque defleo consuasor. Crinis tres voluntarius commodo thymbra cinis.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/VL1QHm2H/7.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '0');
+INSERT INTO `posts` VALUES ('10', 'Advenio deduco velut abundans voluptatibus.', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Denuncio aestivus eum thermae amplexus cresco. Crepusculum aliquid aranea.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/X78MRtbN/9.jpg\", \"type\": \"image\"}]}', '2025-07-04 21:27:04', '2025-07-04 21:27:04', '1', '0');
 
 -- ----------------------------
 -- Table structure for questions
@@ -518,86 +498,6 @@ INSERT INTO `questions` VALUES ('58', '{\"type\": \"richtext\", \"blocks\": [{\"
 INSERT INTO `questions` VALUES ('59', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"选修课可以退选吗？\", \"type\": \"text\"}]}', '0', '3', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0', '这是第59个问题');
 INSERT INTO `questions` VALUES ('60', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"宿舍允许养宠物吗？\", \"type\": \"text\"}]}', '0', '4', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0', '这是第60个问题');
 INSERT INTO `questions` VALUES ('61', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"学生证丢了怎么办？\", \"type\": \"text\"}]}', '0', '5', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0', '这是第61个问题');
-
--- ----------------------------
--- Table structure for questions_copy
--- ----------------------------
-DROP TABLE IF EXISTS `questions_copy`;
-CREATE TABLE `questions_copy` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `content` text,
-  `bonus` int(11) DEFAULT '0',
-  `user_id` bigint(20) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `same_ques` int(11) DEFAULT '0' COMMENT '点赞数',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of questions_copy
--- ----------------------------
-INSERT INTO `questions_copy` VALUES ('1', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"Ciminatio sodalitas crur temptatio apto conor spero cupiditas. Adipiscor defluo incidunt virga talio maxime nemo uberrime decet ea.\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"},{\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-10 16:59:56', '2025-07-10 16:59:59', '0');
-INSERT INTO `questions_copy` VALUES ('2', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"宿舍晚上几点会断电？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('3', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"教学楼周末开放时间是几点？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('4', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"请问体测不过会影响毕业吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('5', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"校园卡丢了怎么办，能补办吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('6', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"图书馆可以带食物进去吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('7', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"实验室使用是否需要提前预约？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('8', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"请问选修课能退选吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('9', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"期末考试时间什么时候公布？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('10', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"请假超过三天需要哪些手续？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('11', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"怎么查询自己的课表？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 04:54:41', '2025-07-15 04:54:41', '0');
-INSERT INTO `questions_copy` VALUES ('12', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"考勤缺席三次会怎么样？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('13', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"校园里可以骑电动车吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('14', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"学校有无障碍通道吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('15', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"宿舍是否允许接热水器？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('16', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"如何申请出国交换项目？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('17', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"校医院挂号流程是怎样的？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('18', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"可以申请辅修专业吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('19', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"有哪些学生组织可以加入？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('20', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"四六级成绩什么时候公布？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('21', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"可以用校园卡乘公交吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 04:56:44', '2025-07-15 04:56:44', '0');
-INSERT INTO `questions_copy` VALUES ('22', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"图书馆周末开放吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('23', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"体测不及格怎么办？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('24', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"校园卡丢了怎么补办？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('25', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"请假流程怎么操作？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('26', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"选修课如何退选？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('27', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"电动车可以进校园吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('28', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"怎么查期末考试安排？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('29', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"寝室几点断电？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('30', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"学校有心理咨询室吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('31', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"如何申请成绩单？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('32', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"四六级报名入口在哪？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('33', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"学校期末考核标准？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('34', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"能申请出国交换吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('35', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"图书馆能带饮料吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('36', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"晚归会扣分吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('37', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"在哪看课程表？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '1', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('38', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"专业能转吗？怎么申请？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '2', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('39', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"哪里打印文件方便？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '3', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('40', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"打疫苗需要预约吗？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '4', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('41', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"自习室怎么预约？\", \"type\": \"text\"}, {\"url\": \"https://i.postimg.cc/fbkhjC1z/1.jpg\", \"type\": \"image\"}, {\"url\": \"https://i.postimg.cc/L8CcXf5r/10.jpg\", \"type\": \"image\"}]}', '0', '5', '2025-07-15 15:58:18', '2025-07-15 15:58:18', '0');
-INSERT INTO `questions_copy` VALUES ('42', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"图书馆节假日开放吗？\", \"type\": \"text\"}]}', '0', '1', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('43', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"选修课如何报名？\", \"type\": \"text\"}]}', '0', '2', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('44', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"校园卡丢了怎么补办？\", \"type\": \"text\"}]}', '0', '3', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('45', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"考试时间在哪里查看？\", \"type\": \"text\"}]}', '0', '4', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('46', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"可以申请缓考吗？\", \"type\": \"text\"}]}', '0', '5', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('47', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"寝室几点熄灯？\", \"type\": \"text\"}]}', '0', '1', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('48', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"图书馆能吃东西吗？\", \"type\": \"text\"}]}', '0', '2', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('49', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"怎么查课程表？\", \"type\": \"text\"}]}', '0', '3', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('50', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"上课可以带电脑吗？\", \"type\": \"text\"}]}', '0', '4', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('51', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"开学时间是几号？\", \"type\": \"text\"}]}', '0', '5', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('52', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"怎么申请奖学金？\", \"type\": \"text\"}]}', '0', '1', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('53', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"老师联系方式在哪看？\", \"type\": \"text\"}]}', '0', '2', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('54', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"在哪里可以打疫苗？\", \"type\": \"text\"}]}', '0', '3', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('55', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"如何使用校园打印机？\", \"type\": \"text\"}]}', '0', '4', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('56', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"能带朋友进宿舍吗？\", \"type\": \"text\"}]}', '0', '5', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('57', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"四六级报名流程？\", \"type\": \"text\"}]}', '0', '1', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('58', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"图书馆能续借几次？\", \"type\": \"text\"}]}', '0', '2', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('59', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"选修课可以退选吗？\", \"type\": \"text\"}]}', '0', '3', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('60', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"宿舍允许养宠物吗？\", \"type\": \"text\"}]}', '0', '4', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
-INSERT INTO `questions_copy` VALUES ('61', '{\"type\": \"richtext\", \"blocks\": [{\"data\": \"学生证丢了怎么办？\", \"type\": \"text\"}]}', '0', '5', '2025-07-15 15:59:36', '2025-07-15 15:59:36', '0');
 
 -- ----------------------------
 -- Table structure for same_questions
