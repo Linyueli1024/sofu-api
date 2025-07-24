@@ -1,9 +1,15 @@
 import express from "express";
-import postRouter from "./routes/post.js";
-import likeRouter from "./routes/like.js";
-import commentRouter from "./routes/comment.js";
-import userRouter from "./routes/user.js";
 import { sequelize } from "./models/index.js";
+import {
+  postRouter,
+  likeRouter,
+  commentRouter,
+  userRouter,
+  categoryRouter,
+  searchQuesRouter,
+  questionRouter,
+  answerRouter,
+} from "./routes/index.js";
 
 const app = express();
 
@@ -12,6 +18,10 @@ app.use("/api", postRouter);
 app.use("/api", likeRouter);
 app.use("/api", commentRouter);
 app.use("/api", userRouter);
+app.use("/api", categoryRouter);
+app.use("/api", searchQuesRouter);
+app.use("/api", questionRouter);
+app.use("/api", answerRouter);
 
 app.get("/health", (_, res) => res.send("OK"));
 

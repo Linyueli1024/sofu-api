@@ -1,9 +1,4 @@
-import User from "../models/user.js";
-import Post from "../models/post.js";
-import Comment from "../models/comment.js";
-import SameQuestion from "../models/sameQues.js";
-import Answer from "../models/answer.js";
-import Question from "../models/question.js";
+import { User, Post, Answer, Question, SameQuestion } from "../models/index.js";
 import jwt from "jsonwebtoken";
 
 // 从 .env 加载密钥和配置

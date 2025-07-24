@@ -24,21 +24,25 @@ export const postComment = async (req, res) => {
       attributes: ["account", "avatar"],
     });
 
-    // 返回结果
+    // 构造 ResponseItem 结构数据
+    const responseItem = {
+      id: newComment.id,
+      text: newComment.text,
+      imgs: [], // 后续可支持图片，先置空数组
+      createdAt: newComment.created_at.toISOString(), // ISO 格式
+      likes: newComment.likes || 0,
+      user: {
+        account: user?.account || "匿名",
+        avatar: user?.avatar || "",
+      },
+      replies: [], // 新评论暂无子回复
+    };
+
+    // 返回
     res.json({
       code: 10000,
       message: "评论成功",
-      data: {
-        id: newComment.id,
-        text: newComment.text,
-        target_id: newComment.target_id,
-        target_type: newComment.target_type,
-        createdAt: newComment.created_at,
-        likes: newComment.likes,
-        author: user?.account || "匿名",
-        avatar: user?.avatar || "",
-        userId: user_id,
-      },
+      data: responseItem,
     });
   } catch (err) {
     console.error(err);
