@@ -75,7 +75,6 @@ export const getPostDetail = async (req, res) => {
       return res.status(400).json({ code: 40000, message: "无效 id" });
     }
 
-    // 获取帖子及作者
     const post = await Post.findOne({
       where: { id },
       include: [
@@ -112,70 +111,75 @@ export const getPostDetail = async (req, res) => {
       },
     };
 
-    // 第一步：查出当前帖子的主评论
-    const topCommentsRaw = await Comment.findAll({
+    // 查询所有评论（主 + 子）
+    const commentsRaw = await Comment.findAll({
       where: {
-        target_id: post.id,
-        target_type: "post",
+        [Op.or]: [
+          { target_id: id, target_type: "post" },
+          { target_type: "comment" },
+        ],
       },
-      include: [{ model: User, as: "user", attributes: ["account", "avatar"] }],
+      include: [
+        { model: User, as: "user", attributes: ["id", "account", "avatar"] },
+      ],
       order: [["created_at", "ASC"]],
     });
 
-    const topCommentIds = topCommentsRaw.map((c) => c.id);
+    // 构建主评论列表和主评论 Map
+    const topComments = [];
+    const topCommentMap = new Map();
 
-    // 第二步：查出子评论
-    const subCommentsRaw = await Comment.findAll({
-      where: {
-        target_type: "comment",
-        target_id: { [Op.in]: topCommentIds },
-      },
-      include: [{ model: User, as: "user", attributes: ["account", "avatar"] }],
-      order: [["created_at", "ASC"]],
-    });
+    for (const c of commentsRaw) {
+      if (c.target_type === "post" && c.target_id === id) {
+        const top = {
+          id: c.id,
+          text: c.text,
+          imgs: [],
+          createdAt: c.created_at,
+          likes: c.likes,
+          target_id: c.target_id,
+          target_type: c.target_type,
+          user: {
+            id: c.user_id,
+            account: c.user?.account || "匿名",
+            avatar: c.user?.avatar || "",
+          },
+          replies: [],
+        };
+        topComments.push(top);
+        topCommentMap.set(c.id, top);
+      }
+    }
 
-    // 格式化主评论
-    const topComments = topCommentsRaw.map((c) => ({
-      id: c.id,
-      text: c.text,
-      imgs: [],
-      createdAt: c.created_at,
-      likes: c.likes,
-      target_id: c.target_id,
-      target_type: c.target_type,
-      user: {
-        id: c.user_id,
-        account: c.user?.account || "匿名",
-        avatar: c.user?.avatar || "",
-      },
-      replies: [],
-    }));
+    // 将子评论添加到对应主评论的 replies 中（只挂一层）
+    for (const c of commentsRaw) {
+      if (c.target_type === "comment") {
+        let parentId = c.target_id;
+        let parent = commentsRaw.find((p) => p.id === parentId);
 
-    // 格式化子评论
-    const subComments = subCommentsRaw.map((c) => ({
-      id: c.id,
-      text: c.text,
-      imgs: [],
-      createdAt: c.created_at,
-      likes: c.likes,
-      target_id: c.target_id,
-      target_type: c.target_type,
-      user: {
-        id: c.user_id,
-        account: c.user?.account || "匿名",
-        avatar: c.user?.avatar || "",
-      },
-      replies: [],
-    }));
+        // 向上找到顶层主评论
+        while (parent && parent.target_type === "comment") {
+          parentId = parent.target_id;
+          parent = commentsRaw.find((p) => p.id === parentId);
+        }
 
-    // 挂载子评论到对应的主评论
-    for (const sub of subComments) {
-      const parentTop = topComments.find((top) => top.id === sub.target_id);
-      if (parentTop) {
-        parentTop.replies.push(sub);
-      } else {
-        // fallback：无法找到主评论，就忽略或丢入顶部
-        topComments.push(sub); // 可选
+        const top = topCommentMap.get(parentId);
+        if (top) {
+          top.replies.push({
+            id: c.id,
+            text: c.text,
+            imgs: [],
+            createdAt: c.created_at,
+            likes: c.likes,
+            target_id: c.target_id,
+            target_type: c.target_type,
+            user: {
+              id: c.user_id,
+              account: c.user?.account || "匿名",
+              avatar: c.user?.avatar || "",
+            },
+          });
+        }
       }
     }
 
