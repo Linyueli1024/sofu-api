@@ -5,7 +5,7 @@ export default async (req, res) => {
 
   try {
     // Step 1: 获取相似问答
-    const pyRes = await axios.post("http://localhost:8000/match", {
+    const pyRes = await axios.post("http://8.208.33.213:8000/match", {
       question,
       top_k: 3,
     });
