@@ -12,6 +12,35 @@ export default async (req, res) => {
 
     const matches = pyRes.data.matches;
 
+    // 解析 matched_question 为json对象
+    const parsedMatches = matches.map((item) => {
+      const qaText = item.matched_question;
+      const match = qaText.match(/问题：(.*?)\n回答：(.*)/s);
+      if (match) {
+        const question = match[1].trim();
+        let answerRaw = match[2].trim();
+        let answerParsed;
+        try {
+          answerParsed = JSON.parse(answerRaw);
+        } catch (e) {
+          answerParsed = {
+            type: "text",
+            blocks: [{ type: "text", data: answerRaw }],
+          };
+        }
+
+        return {
+          ...item,
+          matched_question: {
+            question,
+            answer: answerParsed,
+          },
+        };
+      } else {
+        return item;
+      }
+    });
+
     // Step 2: 构造 Prompt
     let prompt = `以下是与用户问题相关的问题和回答，请参考它们并回答用户的问题：\n\n`;
 
@@ -49,8 +78,8 @@ export default async (req, res) => {
     return res.json({
       code: 10000,
       data: {
-        reference: matches,
-        ai_answer: aiAnswer,
+        reference: parsedMatches,
+        ai_answer: JSON.parse(aiAnswer),
       },
     });
   } catch (err) {
