@@ -145,7 +145,7 @@ export const searchPostsByKeyword = async (req, res) => {
     });
 
     res.json({
-      code: "10000",
+      code: 10000,
       message: "ok",
       data: formatted,
     });
