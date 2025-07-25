@@ -1,8 +1,14 @@
 import express from "express";
-import searchSimilarQues from "../controllers/searchQues.js";
+import {
+  searchByAI,
+  searchPostsByKeyword,
+  searchQuestionsByKeyword,
+} from "../controllers/searchQues.js";
 
 const router = express.Router();
 // POST /api/sameques
-router.post("/search/similar", searchSimilarQues);
+router.post("/search/similar", searchByAI);
+router.get("/search/posts", searchPostsByKeyword);
+router.get("/questions/search", searchQuestionsByKeyword);
 
 export default router;
