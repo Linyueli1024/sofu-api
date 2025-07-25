@@ -41,41 +41,17 @@ export const getQuestionList = async (req, res) => {
 
     const trimmedKeyword = keyword.trim();
 
-    let questions = [];
-    let total = 0;
+    // ========== 构建查询条件 ==========
+    const whereClause = {};
 
-    // ✅ 情况1：关键词搜索模式
     if (trimmedKeyword) {
-      const rawQuestions = await Question.findAll({
-        where: {
-          title: { [Op.like]: `%${trimmedKeyword}%` },
-        },
-        include: [
-          {
-            model: User,
-            as: "user",
-            attributes: ["id", "account", "avatar"],
-          },
-        ],
-        order: [["created_at", "DESC"]],
-        limit: size,
-        offset,
-      });
-
-      // 根据 content.blocks 进一步筛选（title 命中后再过一遍内容）
-      const filtered = rawQuestions.filter((q) => {
-        const content =
-          typeof q.content === "string" ? JSON.parse(q.content) : q.content;
-        const textBlock = content?.blocks?.find((b) => b.type === "text");
-        return textBlock?.data?.includes(trimmedKeyword);
-      });
-
-      questions = filtered;
-      total = filtered.length; // 注意：此 total 是经过内容过滤后的数量
+      whereClause[Op.or] = [
+        { title: { [Op.like]: `%${trimmedKeyword}%` } },
+        { content: { [Op.like]: `%${trimmedKeyword}%` } },
+      ];
     }
 
-    // ✅ 情况2：分类筛选模式
-    else if (cid) {
+    if (cid) {
       const related = await CategoryRel.findAll({
         where: {
           category_id: cid,
@@ -84,50 +60,30 @@ export const getQuestionList = async (req, res) => {
         attributes: ["target_id"],
       });
 
-      const questionIds = related.map((item) => item.target_id);
-
+      const questionIds = related.map((r) => r.target_id);
       if (questionIds.length === 0) {
         return res.json({ code: 10000, message: "ok", data: [], total: 0 });
       }
 
-      const { rows, count } = await Question.findAndCountAll({
-        where: { id: { [Op.in]: questionIds } },
-        include: [
-          {
-            model: User,
-            as: "user",
-            attributes: ["id", "account", "avatar"],
-          },
-        ],
-        order: [["created_at", "DESC"]],
-        limit: size,
-        offset,
-      });
-
-      questions = rows;
-      total = count;
+      whereClause.id = { [Op.in]: questionIds };
     }
 
-    // ✅ 情况3：默认分页全部问题
-    else {
-      const { rows, count } = await Question.findAndCountAll({
-        include: [
-          {
-            model: User,
-            as: "user",
-            attributes: ["id", "account", "avatar"],
-          },
-        ],
-        order: [["created_at", "DESC"]],
-        limit: size,
-        offset,
-      });
+    // ========== 查询分页数据 ==========
+    const { rows: questions, count: total } = await Question.findAndCountAll({
+      where: whereClause,
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "account", "avatar"],
+        },
+      ],
+      order: [["created_at", "DESC"]],
+      limit: size,
+      offset,
+    });
 
-      questions = rows;
-      total = count;
-    }
-
-    // ✅ 获取所有问题的最佳回答等信息
+    // ========== 获取回答信息 ==========
     const data = await Promise.all(
       questions.map(async (q) => {
         const answers = await Answer.findAll({
@@ -146,10 +102,7 @@ export const getQuestionList = async (req, res) => {
         const bestAnswer = answers[0] || null;
 
         const directAnswers = await Answer.findAll({
-          where: {
-            target_type: "question",
-            target_id: q.id,
-          },
+          where: { target_type: "question", target_id: q.id },
           attributes: ["id"],
         });
 
@@ -204,7 +157,7 @@ export const getQuestionList = async (req, res) => {
       })
     );
 
-    res.json({
+    return res.json({
       code: 10000,
       message: "ok",
       data,
