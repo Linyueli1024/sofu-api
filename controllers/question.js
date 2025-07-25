@@ -28,16 +28,54 @@ function parseRichText(content) {
 
 export const getQuestionList = async (req, res) => {
   try {
-    const { cid, page = 1, pageSize = 10 } = req.query;
+    const {
+      keyword = "",
+      cid = null,
+      page = 1,
+      pageSize = 10,
+    } = req.method === "GET" ? req.query : req.body;
 
     const pageNum = parseInt(page, 10);
     const size = parseInt(pageSize, 10);
     const offset = (pageNum - 1) * size;
 
-    let questionIds = [];
+    const trimmedKeyword = keyword.trim();
 
-    // ✅ 根据分类ID查询关联的问题ID
-    if (cid) {
+    let questions = [];
+    let total = 0;
+
+    // ✅ 情况1：关键词搜索模式
+    if (trimmedKeyword) {
+      const rawQuestions = await Question.findAll({
+        where: {
+          title: { [Op.like]: `%${trimmedKeyword}%` },
+        },
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["id", "account", "avatar"],
+          },
+        ],
+        order: [["created_at", "DESC"]],
+        limit: size,
+        offset,
+      });
+
+      // 根据 content.blocks 进一步筛选（title 命中后再过一遍内容）
+      const filtered = rawQuestions.filter((q) => {
+        const content =
+          typeof q.content === "string" ? JSON.parse(q.content) : q.content;
+        const textBlock = content?.blocks?.find((b) => b.type === "text");
+        return textBlock?.data?.includes(trimmedKeyword);
+      });
+
+      questions = filtered;
+      total = filtered.length; // 注意：此 total 是经过内容过滤后的数量
+    }
+
+    // ✅ 情况2：分类筛选模式
+    else if (cid) {
       const related = await CategoryRel.findAll({
         where: {
           category_id: cid,
@@ -46,28 +84,50 @@ export const getQuestionList = async (req, res) => {
         attributes: ["target_id"],
       });
 
-      questionIds = related.map((item) => item.target_id);
+      const questionIds = related.map((item) => item.target_id);
 
       if (questionIds.length === 0) {
         return res.json({ code: 10000, message: "ok", data: [], total: 0 });
       }
+
+      const { rows, count } = await Question.findAndCountAll({
+        where: { id: { [Op.in]: questionIds } },
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["id", "account", "avatar"],
+          },
+        ],
+        order: [["created_at", "DESC"]],
+        limit: size,
+        offset,
+      });
+
+      questions = rows;
+      total = count;
     }
 
-    // ✅ 查询问题 + 分页
-    const { rows: questions, count: total } = await Question.findAndCountAll({
-      where: cid ? { id: { [Op.in]: questionIds } } : undefined,
-      include: [
-        {
-          model: User,
-          as: "user",
-          attributes: ["id", "account", "avatar"],
-        },
-      ],
-      order: [["created_at", "DESC"]],
-      limit: size,
-      offset: offset,
-    });
+    // ✅ 情况3：默认分页全部问题
+    else {
+      const { rows, count } = await Question.findAndCountAll({
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["id", "account", "avatar"],
+          },
+        ],
+        order: [["created_at", "DESC"]],
+        limit: size,
+        offset,
+      });
 
+      questions = rows;
+      total = count;
+    }
+
+    // ✅ 获取所有问题的最佳回答等信息
     const data = await Promise.all(
       questions.map(async (q) => {
         const answers = await Answer.findAll({
@@ -85,7 +145,6 @@ export const getQuestionList = async (req, res) => {
 
         const bestAnswer = answers[0] || null;
 
-        // 查找所有回答 target_type = 'question' 且 target_id = 当前问题ID
         const directAnswers = await Answer.findAll({
           where: {
             target_type: "question",
@@ -94,10 +153,8 @@ export const getQuestionList = async (req, res) => {
           attributes: ["id"],
         });
 
-        // 获取这些回答的 ID 列表
         const directAnswerIds = directAnswers.map((a) => a.id);
 
-        // 统计所有相关回答：包括对问题的回答 + 对这些回答的评论
         const answerCount = await Answer.count({
           where: {
             [Op.or]: [
@@ -116,7 +173,7 @@ export const getQuestionList = async (req, res) => {
         return {
           id: q.id,
           author: {
-            id: q.user_id,
+            id: q.user.id,
             avatar: q.user.avatar,
             account: q.user.account,
           },
@@ -151,7 +208,7 @@ export const getQuestionList = async (req, res) => {
       code: 10000,
       message: "ok",
       data,
-      total, // 返回总条数，前端可计算总页数
+      total,
     });
   } catch (error) {
     console.error(error);

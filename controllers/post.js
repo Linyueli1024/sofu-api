@@ -2,12 +2,17 @@ import { Post, User, CategoryRel, Comment } from "../models/index.js";
 import { Op } from "sequelize";
 export const getPostList = async (req, res) => {
   try {
-    // 从 query 中读取 categoryId
-    const categoryId = req.query.categoryId
-      ? Number(req.query.categoryId)
-      : null;
+    const {
+      keyword = "",
+      categoryId,
+      page = 1,
+      pageSize = 10,
+    } = req.method === "GET" ? req.query : req.body;
 
-    // 构造 include 数组
+    const offset = (Number(page) - 1) * Number(pageSize);
+    const size = Number(pageSize);
+    const trimmedKeyword = keyword.trim();
+
     const include = [
       {
         model: User,
@@ -16,26 +21,42 @@ export const getPostList = async (req, res) => {
       },
     ];
 
-    // 如果指定了 categoryId，就额外 join category_relas 表
+    // 如果传了分类，添加中间表筛选
     if (categoryId) {
       include.push({
         model: CategoryRel,
-        as: "categoryRels", // 确保和你在 models 里定义的 alias 对上
-        attributes: [], // 不返回中间表字段
+        as: "categoryRels",
+        attributes: [],
         where: {
-          // 属于这个分类、并且 target_type=post
-          category_id: categoryId,
+          category_id: Number(categoryId),
           target_type: "post",
         },
       });
     }
 
+    // 查全部（可能包含 keyword 也可能没有）
     const posts = await Post.findAll({
       include,
       order: [["created_at", "DESC"]],
+      limit: size,
+      offset,
     });
 
-    const formatted = posts.map((post) => {
+    // ✅ 如果传了 keyword，就在后端手动过滤 content.text
+    let filtered = posts;
+    if (trimmedKeyword) {
+      filtered = posts.filter((post) => {
+        const content =
+          typeof post.content === "string"
+            ? JSON.parse(post.content)
+            : post.content;
+        const text =
+          content?.blocks?.find((b) => b.type === "text")?.data || "";
+        return text.includes(trimmedKeyword);
+      });
+    }
+
+    const formatted = filtered.map((post) => {
       const content =
         typeof post.content === "string"
           ? JSON.parse(post.content)
@@ -59,12 +80,15 @@ export const getPostList = async (req, res) => {
       code: 10000,
       message: "ok",
       data: formatted,
+      total: formatted.length, // ❗前端分页建议后期优化为 count 查询
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ code: 50000, message: "服务器错误", error: error.message });
+    res.status(500).json({
+      code: 50000,
+      message: "服务器错误",
+      error: error.message,
+    });
   }
 };
 
