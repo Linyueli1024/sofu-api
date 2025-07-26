@@ -53,7 +53,7 @@ export const searchByAI = async (req, res) => {
       }
     });
 
-    prompt += `用户提问：${question}\n请根据这些问答内容，尽量列出多个可行的建议或方法供用户参考，语言清晰准确，逻辑合理。`;
+    prompt += `用户提问：${question}\n请根据这些问答内容，用一段简洁的话，语言清晰准确，逻辑合理。`;
 
     // Step 3: 调用 DeepSeek 本地 API
     const aiRes = await axios.post(
