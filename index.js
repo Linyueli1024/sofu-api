@@ -9,6 +9,7 @@ import {
   searchQuesRouter,
   questionRouter,
   answerRouter,
+  authRouter,
 } from "./routes/index.js";
 
 const app = express();
@@ -22,6 +23,7 @@ app.use("/api", categoryRouter);
 app.use("/api", searchQuesRouter);
 app.use("/api", questionRouter);
 app.use("/api", answerRouter);
+app.use("/api", authRouter);
 
 app.get("/health", (_, res) => res.send("OK"));
 

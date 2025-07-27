@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 
 // 从 .env 加载密钥和配置
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
+const JWT_REFRESH_SECRET =
+  process.env.JWT_REFRESH_SECRET || "default_refresh_secret";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1h";
 const REFRESH_TOKEN_EXPIRES_IN = process.env.REFRESH_TOKEN_EXPIRES_IN || "7d";
 
@@ -26,12 +28,14 @@ export const loginByPassword = async (req, res) => {
       return res.status(401).json({ code: 40101, message: "密码错误" });
     }
 
-    // ✅ 生成 Token
+    // ✅ 使用不同 secret 签发两个 token
     const payload = { id: user.id, mobile: user.mobile };
+
     const accessToken = jwt.sign(payload, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
     });
-    const refreshToken = jwt.sign(payload, JWT_SECRET, {
+
+    const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
       expiresIn: REFRESH_TOKEN_EXPIRES_IN,
     });
 
@@ -49,9 +53,11 @@ export const loginByPassword = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ code: 50000, message: "服务器错误", error: err.message });
+    res.status(500).json({
+      code: 50000,
+      message: "服务器错误",
+      error: err.message,
+    });
   }
 };
 export const getUserInfo = async (req, res) => {

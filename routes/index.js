@@ -6,6 +6,7 @@ import categoryRouter from "./category.js";
 import searchQuesRouter from "./searchQues.js";
 import questionRouter from "./question.js";
 import answerRouter from "./answer.js";
+import authRouter from "./auth.js";
 
 export {
   postRouter,
@@ -16,4 +17,5 @@ export {
   searchQuesRouter,
   questionRouter,
   answerRouter,
+  authRouter,
 };
