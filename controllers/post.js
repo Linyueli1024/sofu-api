@@ -224,3 +224,55 @@ export const getPostDetail = async (req, res) => {
     });
   }
 };
+
+export const createPost = async (req, res) => {
+  try {
+    const { title, text, images = [], categoryList = [] } = req.body;
+    const userId = req.user.id;
+    if (!title || !text || !userId) {
+      return res.status(400).json({ code: 40000, message: "缺少必要字段" });
+    }
+
+    // 构造 content 格式：richtext + blocks（text + images）
+    const content = {
+      type: "richtext",
+      blocks: [
+        { type: "text", data: text },
+        ...images.map((url) => ({ type: "image", url })),
+      ],
+    };
+
+    // 创建帖子记录
+    const newPost = await Post.create({
+      title,
+      content: JSON.stringify(content),
+      user_id: userId,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
+
+    // 插入分类关联记录
+    const rels = categoryList.map((catId) => ({
+      category_id: catId,
+      target_type: "post",
+      target_id: newPost.id,
+    }));
+
+    if (rels.length > 0) {
+      await CategoryRel.bulkCreate(rels);
+    }
+
+    res.json({
+      code: 10000,
+      message: "帖子发布成功",
+      data: { id: newPost.id },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      code: 50000,
+      message: "服务器错误",
+      error: err.message,
+    });
+  }
+};
