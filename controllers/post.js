@@ -99,6 +99,9 @@ export const getPostDetail = async (req, res) => {
       return res.status(400).json({ code: 40000, message: "无效 id" });
     }
 
+    // 当前登录用户 ID
+    const currentUserId = req.user?.id || null;
+
     const post = await Post.findOne({
       where: { id },
       include: [
@@ -108,6 +111,15 @@ export const getPostDetail = async (req, res) => {
 
     if (!post) {
       return res.status(404).json({ code: 40400, message: "帖子不存在" });
+    }
+
+    // 判断当前用户是否点赞
+    let isLiked = false;
+    if (currentUserId) {
+      const likedRecord = await Like.findOne({
+        where: { target_type: "post", target_id: id, user_id: currentUserId },
+      });
+      isLiked = !!likedRecord;
     }
 
     const rawContent =
@@ -127,6 +139,7 @@ export const getPostDetail = async (req, res) => {
         avatar: post.user.avatar,
       },
       likes: post.likes,
+      isLiked, // ✅ 新增字段
       createdAt: post.created_at,
       updatedAt: post.updated_at,
       content: {
@@ -135,7 +148,7 @@ export const getPostDetail = async (req, res) => {
       },
     };
 
-    // 查询所有评论（主 + 子）
+    // 评论查询逻辑（保持你的原有代码）
     const commentsRaw = await Comment.findAll({
       where: {
         [Op.or]: [
@@ -149,7 +162,6 @@ export const getPostDetail = async (req, res) => {
       order: [["created_at", "ASC"]],
     });
 
-    // 构建主评论列表和主评论 Map
     const topComments = [];
     const topCommentMap = new Map();
 
@@ -175,13 +187,11 @@ export const getPostDetail = async (req, res) => {
       }
     }
 
-    // 将子评论添加到对应主评论的 replies 中（只挂一层）
     for (const c of commentsRaw) {
       if (c.target_type === "comment") {
         let parentId = c.target_id;
         let parent = commentsRaw.find((p) => p.id === parentId);
 
-        // 向上找到顶层主评论
         while (parent && parent.target_type === "comment") {
           parentId = parent.target_id;
           parent = commentsRaw.find((p) => p.id === parentId);
