@@ -1,4 +1,4 @@
-import { Post, User, CategoryRel, Comment } from "../models/index.js";
+import { Post, User, CategoryRel, Comment, Like } from "../models/index.js";
 import { Op } from "sequelize";
 export const getPostList = async (req, res) => {
   try {
@@ -8,7 +8,6 @@ export const getPostList = async (req, res) => {
       page = 1,
       pageSize = 10,
     } = req.method === "GET" ? req.query : req.body;
-
     const offset = (Number(page) - 1) * Number(pageSize);
     const size = Number(pageSize);
     const trimmedKeyword = keyword.trim();

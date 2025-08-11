@@ -1,9 +1,9 @@
 import express from "express";
 import { postComment } from "../controllers/comment.js";
-import { authMiddleware } from "../middlewares/auth.js";
+import { authRequired } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.post("/comment", authMiddleware, postComment);
+router.post("/comment", authRequired, postComment);
 
 export default router;
