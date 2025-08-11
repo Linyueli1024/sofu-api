@@ -2,9 +2,9 @@ import { User, Post, Answer, Question, SameQuestion } from "../models/index.js";
 import jwt from "jsonwebtoken";
 
 // 从 .env 加载密钥和配置
-const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
+const JWT_SECRET = process.env.JWT_SECRET || "JWT_SECRET";
 const JWT_REFRESH_SECRET =
-  process.env.JWT_REFRESH_SECRET || "default_refresh_secret";
+  process.env.JWT_REFRESH_SECRET || "JWT_REFRESH_SECRET";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1h";
 const REFRESH_TOKEN_EXPIRES_IN = process.env.REFRESH_TOKEN_EXPIRES_IN || "7d";
 
@@ -30,7 +30,6 @@ export const loginByPassword = async (req, res) => {
 
     // ✅ 使用不同 secret 签发两个 token
     const payload = { id: user.id, mobile: user.mobile };
-
     const accessToken = jwt.sign(payload, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
     });
