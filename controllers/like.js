@@ -1,4 +1,4 @@
-import Like from "../models/like.js";
+import { Like } from "../models/index.js";
 
 export const toggleLike = async (req, res) => {
   const { target_type, target_id, user_id } = req.body;
